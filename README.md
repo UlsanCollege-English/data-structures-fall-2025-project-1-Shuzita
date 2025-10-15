@@ -1,50 +1,72 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/JWEh_q2R)
-# Multi-Queue Round-Robin Café (Interactive CLI)
+How to run
 
-## How to run
+Clone the repository:
 
-(Insert directions to run your program here.)
-
-
-## How to run tests locally
-(Insert directions to run your tests here.)
+git clone <your_github_repo_url>
+cd <repository_folder>
 
 
-## Complexity Notes
-Briefly justify:
+Make sure Python 3 is installed:
 
-- Your queue design (e.g., circular buffer).
-
-- Time complexity: enqueue, dequeue amortized O(1); run is O(#turns + total_minutes_worked).
-
-- Space complexity: O(N) tasks + metadata.
+python --version
 
 
-## **Delete this section before submission.**
-### Common pitfalls
-- Display should print after each RUN turn only.
+Run the program:
 
-- Don’t advance time on empty or skipped queues.
-
-- Enforce 1 ≤ steps ≤ #queues for RUN.
-
-- Auto task IDs per queue: <queue_id>-NNN (zero-padded).
-
-- Use exact messages:
-
-    - Sorry, we're at capacity.
-
-    - Sorry, we don't serve that.
+python scheduler.py
 
 
-### Grading rubric (I will be using this to grade your submission)
+Example usage in Python:
 
-**__Correctness (50):__** RR behavior, logs, display-per-turn, auto task ids, menu handling, rejects.
+from scheduler import Scheduler
 
-**__Complexity notes (15):__** correct, concise, justified.
+s = Scheduler()
+s.create_queue("Mobile", 2)
+s.create_queue("WalkIns", 2)
 
-**__Student tests (15):__** ≥4 targeted, deterministic tests incl. steps validation.
+s.enqueue("Mobile", "latte")
+s.enqueue("WalkIns", "americano")
 
-**__Code quality (10):__** structure, type hints on public surfaces, docstrings, PEP 8.
+logs = s.run(quantum=1, steps=2)
+print("\n".join(logs))
 
-**__Docs & UX (10):__** README completeness; exact messages; clear CLI.
+How to run tests locally
+
+Install pytest if not already installed:
+
+pip install pytest
+
+
+Run all tests:
+
+python -m pytest -q
+
+
+. indicates a passed test
+
+F indicates a failed test
+
+Complexity Notes
+Queue Design
+
+Each queue is implemented using a Python list for storing tasks.
+
+Auto-incremented task IDs ensure unique identification per queue.
+
+Round-robin scheduling iterates over queues in order.
+
+Skip functionality allows a queue to be skipped for one turn without losing tasks.
+
+Time Complexity
+
+Enqueue: O(1) amortized (append to list)
+
+Dequeue / Run: O(#turns + total_minutes_worked), iterates only over the number of steps specified
+
+Mark Skip: O(1), implemented with a set for quick lookup
+
+Space Complexity
+
+O(N) for storing N tasks across all queues
+
+Additional space for task metadata, logs, and skip tracking
